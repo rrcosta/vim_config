@@ -40,6 +40,11 @@ Plug 'junegunn/fzf.vim'
 
 "Go Lang"
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'hexdigest/gounit-vim'
+
+" Python 
+Plug 'sheerun/vim-polyglot'
+Plug 'maralla/completor.vim', { 'do': 'pip install jedi' }
 
 call plug#end()
 " Tema "
@@ -48,7 +53,7 @@ set background=dark
 
 set hidden
 set number
-set relativenumber
+"set relativenumber
 set mouse=a
 set inccommand=split
 set smarttab 
