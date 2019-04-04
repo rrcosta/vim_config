@@ -79,6 +79,8 @@ set ruler
 set incsearch
 set wildmenu
 
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
+
 " Tab config
 set expandtab
 set tabstop=2
@@ -180,6 +182,7 @@ let g:multi_cursor_quit_key            = '<Esc>'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 "     Go Lang support 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:go_fmt_command = "goimports"
 
 let g:go_highlight_types = 1
@@ -195,12 +198,14 @@ let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 let g:completor_gocode_binary = '/Users/rafaelrezendecosta/go/bin/gocode'
 
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use TAB to complete when typing words, else inserts TABs as usual.  Uses
 " dictionary, source files, and completor to find matching words to complete.
 
 " Note: usual completion is on <C-n> but more trouble to press all the time.
 " Never type the same word twice and maybe learn a new spellings!
 " Use the Linux dictionary when spelling is in doubt.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! Tab_Or_Complete() abort
   " If completor is already open the `tab` cycles through suggested completions.
   if pumvisible()
@@ -220,6 +225,30 @@ endfunction
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+
 " Use tab to trigger auto completion.  Default suggests completions as you type.
 let g:completor_auto_trigger = 0
 inoremap <expr> <Tab> Tab_Or_Complete()
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Run a given vim command on the results of fuzzy selecting from a given shell
+" command. See usage below.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! SelectaCommand(choice_command, selecta_args, vim_command)
+  try
+    let selection = system(a:choice_command . " | selecta " . a:selecta_args)
+  catch /Vim:Interrupt/
+    " Swallow the ^C so that the redraw below happens; otherwise there will be
+    " leftovers from selecta on the screen
+    redraw!
+    return
+  endtry
+  redraw!
+  exec a:vim_command . " " . selection
+endfunction
+
+" Find all files in all non-dot directories starting in the working directory.
+" Fuzzy select one of those. Open the selected file with :e.
+nnoremap <leader>f :call SelectaCommand("find * -type f", "", ":e")<cr>
