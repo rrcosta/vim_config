@@ -1,4 +1,5 @@
 call plug#begin()
+Plug 'tpope/vim-fugitive'
 Plug 'junegunn/vim-easy-align'
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -22,6 +23,7 @@ Plug 'thoughtbot/vim-rspec'
 Plug 'ap/vim-buftabline'
 Plug 'tpope/vim-bundler', { 'for': 'ruby' }
 Plug 'vim-ruby/vim-ruby'
+Plug 'Shougo/neocomplete.vim'
 
 " Markdown
 Plug 'plasticboy/vim-markdown'
@@ -45,18 +47,26 @@ Plug 'junegunn/fzf.vim'
 "Go Lang"
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'hexdigest/gounit-vim'
+Plug 'sebdah/vim-delve'
 
 " Python 
 Plug 'sheerun/vim-polyglot'
 Plug 'maralla/completor.vim', { 'do': 'pip install jedi' }
 
+" built-in plugin manager
+Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-surround'
+
+
 call plug#end()
+
 " Tema "
 colorscheme gruvbox
 set background=dark
 
 set hidden
 set number
+
 "set relativenumber
 set mouse=a
 set inccommand=split
@@ -163,3 +173,18 @@ let g:multi_cursor_next_key            = '<C-n>'
 let g:multi_cursor_prev_key            = '<C-p>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"     Go Lang support 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:go_fmt_command = "goimports"
+
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_functions = 1
+
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave_enabled = ['vet', 'golint']
+
+
