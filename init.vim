@@ -1,4 +1,5 @@
 call plug#begin()
+
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/vim-easy-align'
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
@@ -48,6 +49,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'hexdigest/gounit-vim'
 Plug 'sebdah/vim-delve'
+Plug 'maralla/completor.vim'
+Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
 
 " Python 
 Plug 'sheerun/vim-polyglot'
@@ -187,4 +190,36 @@ let g:go_highlight_functions = 1
 let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 
+" maralla/completor.vim
+"
+let g:completor_gocode_binary = '/Users/rafaelrezendecosta/go/bin/gocode'
 
+
+" Use TAB to complete when typing words, else inserts TABs as usual.  Uses
+" dictionary, source files, and completor to find matching words to complete.
+
+" Note: usual completion is on <C-n> but more trouble to press all the time.
+" Never type the same word twice and maybe learn a new spellings!
+" Use the Linux dictionary when spelling is in doubt.
+function! Tab_Or_Complete() abort
+  " If completor is already open the `tab` cycles through suggested completions.
+  if pumvisible()
+    return "\<C-N>"
+  " If completor is not open and we are in the middle of typing a word then
+  " `tab` opens completor menu.
+  elseif col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<C-R>=completor#do('complete')\<CR>"
+  else
+    " If we aren't typing a word and we press `tab` simply do the normal `tab`
+    " action.
+    return "\<Tab>"
+  endif
+endfunction
+
+" Use `tab` key to select completions.  Default is arrow keys.
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Use tab to trigger auto completion.  Default suggests completions as you type.
+let g:completor_auto_trigger = 0
+inoremap <expr> <Tab> Tab_Or_Complete()
