@@ -190,7 +190,8 @@ set expandtab
 set mouse=a
 
 "" Map leader to ,
-let mapleader=','
+"let mapleader=','
+let mapleader="\<Space>"
 
 "" Enable hidden buffers
 set hidden
